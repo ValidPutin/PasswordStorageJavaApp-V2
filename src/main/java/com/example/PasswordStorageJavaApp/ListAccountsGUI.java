@@ -153,7 +153,17 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         
-        int rowToDelete = jTable1.getSelectedRow();
+        int selectedRow = jTable1.getSelectedRow();
+        int selectedColumn = 0;
+        
+        Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
+        
+        String _id = _idObj.toString();
+        
+        System.out.println(_id);
+        
+        Main Main = new Main();
+        Main.deleteRegAccount(_id);
         
         
     }//GEN-LAST:event_jButton2ActionPerformed
