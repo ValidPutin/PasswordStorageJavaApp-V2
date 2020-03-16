@@ -48,16 +48,17 @@ public class ListAccountsGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        String[] Columns = new String[]{"Username","Password","Website URL","Description"};
+        String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
         MongoCollection<Document> collection = database.getCollection("test");
         for (Document cur : collection.find()) {
             System.out.println(cur.toJson());
+            Object _id = cur.get("_id");
             Object Username = cur.get("Username");
             Object Password = cur.get("Password");
             Object WebsiteURL = cur.get("Website URL");
             Object Description = cur.get("Description");
-            AccountModel.addRow(new Object[] {Username,Password,WebsiteURL,Description});
+            AccountModel.addRow(new Object[] {_id,Username,Password,WebsiteURL,Description});
         }
         jTable1.setModel(AccountModel);
         jScrollPane1.setViewportView(jTable1);
@@ -70,6 +71,11 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Remove");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         jLabel1.setText("Accounts View");
@@ -144,6 +150,14 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         UserDetailsGUI.main(new String [0]);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        
+        int rowToDelete = jTable1.getSelectedRow();
+        
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -186,6 +200,6 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    public javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

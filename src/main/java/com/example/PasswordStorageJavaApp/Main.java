@@ -16,9 +16,6 @@ public class Main {
 	public static void main(String[] args) {
                     UserLoginGUI UserLoginGUI = new UserLoginGUI();
                     UserLoginGUI.main(new String[0]);
-            
-            
-            
 	}
         
         public boolean checkMasterAccountExists(){
@@ -82,7 +79,12 @@ public class Main {
         return passwordList;
         
     }
-        
+     public void deleteRegAccount(){
+         MongoCollection<Document> collection = database.getCollection("test");
+         
+         
+         
+    }
         
 
 }
