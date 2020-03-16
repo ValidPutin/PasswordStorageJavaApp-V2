@@ -6,6 +6,7 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @SpringBootApplication
 public class Main {
@@ -16,9 +17,6 @@ public class Main {
 	public static void main(String[] args) {
                     UserLoginGUI UserLoginGUI = new UserLoginGUI();
                     UserLoginGUI.main(new String[0]);
-            
-            
-            
 	}
         
         public boolean checkMasterAccountExists(){
@@ -35,11 +33,21 @@ public class Main {
         }
         return exists;
     }
-    
+        
+        public boolean checkPassCorrect(String Password,String hashedMasterPassword) {
+            boolean correct = false;
+            if(BCrypt.checkpw(Password, hashedMasterPassword)) {
+                correct = true;
+                System.out.println("Password Match");
+                System.out.println("Salt: " + BCrypt.gensalt(10) + " Hash: " + hashedMasterPassword);
+            }else{correct = false;}
+            return correct;
+        }
+        
     public void createMasterAccount(String password){
         //Insert hashing function here, store hashed password instead of 'hello'
-        
-        String hashedPassword = "hashed" + password;
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
+
         MongoCollection<Document> collection = adminDatabase.getCollection("MasterAccount");
         Document document = new Document("password",hashedPassword);
         collection.insertOne(document);

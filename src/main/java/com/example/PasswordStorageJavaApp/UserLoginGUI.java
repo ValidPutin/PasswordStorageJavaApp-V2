@@ -116,9 +116,10 @@ public class UserLoginGUI extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Created Account");
                 }
             }
-            String hashedUserEnteredPass = "hashed" + password; //Add hashing function here
-            String storedhashMasterPass = Main.getMasterPassword();
-            if(hashedUserEnteredPass.equals(storedhashMasterPass)){
+            String storedhashMasterPassword = Main.getMasterPassword();
+            boolean correct = Main.checkPassCorrect(password,storedhashMasterPassword);
+            
+            if(correct){
                 JOptionPane.showMessageDialog(null, "Logged in!");
                 acclistGUI.main(new String[0]);
             }
