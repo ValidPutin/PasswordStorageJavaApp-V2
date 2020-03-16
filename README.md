@@ -20,7 +20,7 @@ git clone https://github.com/ValidPutin/PasswordStorageJavaApp-V2.git
 git pull
 
 ### Mark the files you changed to be uploaded
-git add src/main/java/com/mycompany/crypto/*
+git add src/main/java/com/example/PasswordStorageJavaApp/*
 
 ### Make a commitment to the changes you made
 git commit -m "Write a message here"
