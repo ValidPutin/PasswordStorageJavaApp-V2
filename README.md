@@ -14,7 +14,7 @@ Adnan: Encryption of regular passwords (AES)
 ## How to use:
 
 ### Copy files to local computer (1st time)
-git clone https://github.com/ValidPutin/PasswordStorageJavaApp.git
+git clone https://github.com/ValidPutin/PasswordStorageJavaApp-V2.git
 
 ### Get the updated changes since last time (run every time to be sure)
 git pull
