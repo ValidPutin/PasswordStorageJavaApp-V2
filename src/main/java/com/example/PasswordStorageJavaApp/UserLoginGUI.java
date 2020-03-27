@@ -5,8 +5,7 @@
  */
 package com.example.PasswordStorageJavaApp;
 
-import com.mongodb.MongoClient;
-import com.mongodb.client.MongoDatabase;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -108,12 +107,16 @@ public class UserLoginGUI extends javax.swing.JFrame {
         String accountType = String.valueOf(AccountTypeComboBox.getSelectedItem());
         String password = jPasswordField1.getText();
         
+        
         if ("Master".equals(accountType)){
             if(Main.checkMasterAccountExists() == false){
                 int create = JOptionPane.showConfirmDialog(null,"The master account does not exist!\nWould you like to create it now with the entered password?",null,JOptionPane.YES_NO_OPTION);
                 if (create == JOptionPane.YES_OPTION){
                     Main.createMasterAccount(password);
                     JOptionPane.showMessageDialog(null, "Created Account");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "OK!, exiting");
                 }
             }
             String storedhashMasterPassword = Main.getMasterPassword();
@@ -122,26 +125,26 @@ public class UserLoginGUI extends javax.swing.JFrame {
             if(correct){
                 JOptionPane.showMessageDialog(null, "Logged in!");
                 acclistGUI.main(new String[0]);
+                setVisible(false); //you can't see me!
+                dispose(); //Destroy the JFrame object
             }
             else{
                 JOptionPane.showMessageDialog(null, "Password entered was incorrect");
             }
         }
         
-        if ("Regular".equals(accountType)){
-            System.out.println("Selected regular");
+        else if ("Regular".equals(accountType)){
             String passwordEnc = password + "encrypted";
             String[] storedRegPasswords = Main.getRegPasswords();
             for (int i = 0; i <= storedRegPasswords.length-1;i++){
                 if (passwordEnc.equals(storedRegPasswords[i])){
-                    i = storedRegPasswords.length-1;
                     JOptionPane.showMessageDialog(null, "Logged in!");
                     acclistGUI.main(new String[0]);
                 }
             }
         } 
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */

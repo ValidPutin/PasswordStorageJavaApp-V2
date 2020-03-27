@@ -140,6 +140,10 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         
         Main Main = new Main();
         Main.addRegAccount(Username, Password, WebsiteURL, Description);
+        ListAccountsGUI acclistGUI = new ListAccountsGUI();
+        acclistGUI.main(new String[0]);
+        setVisible(false); //you can't see me!
+        dispose(); //Destroy the JFrame object
         
     }//GEN-LAST:event_jButton1ActionPerformed
 

@@ -6,16 +6,12 @@
 package com.example.PasswordStorageJavaApp;
 
 import com.mongodb.MongoClient;
-import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -27,9 +23,8 @@ public class ListAccountsGUI extends javax.swing.JFrame {
      * Creates new form ListAccountsGUI
      */
     
-    MongoClient mongoClient = new MongoClient();
-    MongoDatabase database = mongoClient.getDatabase("test");
-
+    MongoClient mongoClient = new MongoClient( "34.89.31.98" );
+    MongoDatabase database = mongoClient.getDatabase("Accounts");
     
     public ListAccountsGUI() {
         initComponents();
@@ -46,7 +41,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
@@ -81,6 +76,12 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         jLabel1.setText("Accounts View");
 
         jButton3.setText("Change Master Account Password");
+        String accType= null;
+        if ("Regular".equals(accType)) {
+            jButton3.setEnabled(false);
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+        }
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -148,6 +149,8 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         UserDetailsGUI UserDetailsGUI= new UserDetailsGUI();
         UserDetailsGUI.main(new String [0]);
+        setVisible(false);
+        dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -163,11 +166,33 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         System.out.println(_id);
         
         Main Main = new Main();
-        Main.deleteRegAccount(_id);
+        Main.deleteRegAccount(_id);     
         
+        createJtable();
         
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    public void createJtable(){
+        jTable1 = new javax.swing.JTable();
+        String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
+        DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
+        MongoCollection<Document> collection = database.getCollection("test");
+        for (Document cur : collection.find()) {
+            System.out.println(cur.toJson());
+            Object _id = cur.get("_id");
+            Object Username = cur.get("Username");
+            Object Password = cur.get("Password");
+            Object WebsiteURL = cur.get("Website URL");
+            Object Description = cur.get("Description");
+            AccountModel.addRow(new Object[] {_id,Username,Password,WebsiteURL,Description});
+        }
+        jTable1.setModel(AccountModel);
+
+
+
+        jScrollPane1.setViewportView(jTable1);
+    }
+    
     /**
      * @param args the command line arguments
      */

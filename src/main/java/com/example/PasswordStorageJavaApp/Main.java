@@ -11,9 +11,10 @@ import org.bson.types.ObjectId;
 @SpringBootApplication
 public class Main {
 
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase database = mongoClient.getDatabase("test");
+        MongoClient mongoClient = new MongoClient( "34.89.31.98" );
+        MongoDatabase database = mongoClient.getDatabase("Accounts");
         MongoDatabase adminDatabase = mongoClient.getDatabase("admin");
+                
         public static void main(String[] args) {
             UserLoginGUI UserLoginGUI = new UserLoginGUI();
             UserLoginGUI.main(new String[0]);
@@ -91,6 +92,4 @@ public class Main {
             }
             return passwordList;
         }
-        
-        
 }
