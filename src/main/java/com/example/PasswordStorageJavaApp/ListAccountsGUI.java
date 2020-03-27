@@ -41,7 +41,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
