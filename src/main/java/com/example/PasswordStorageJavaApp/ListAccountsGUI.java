@@ -41,6 +41,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +84,13 @@ public class ListAccountsGUI extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Edit");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -93,9 +101,11 @@ public class ListAccountsGUI extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(159, 159, 159)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 175, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane1))
                 .addContainerGap())
@@ -115,7 +125,8 @@ public class ListAccountsGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -150,16 +161,35 @@ public class ListAccountsGUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        
-        int selectedRow = jTable1.getSelectedRow();
-        int selectedColumn = 0;
-        Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
-        String _id = _idObj.toString();
-        Main Main = new Main();
-        Main.deleteRegAccount(_id);     
-        createJtable();
-        
+        try{
+            int selectedRow = jTable1.getSelectedRow();
+            int selectedColumn = 0;
+            Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
+            String _id = _idObj.toString();
+            Main Main = new Main();
+            Main.deleteRegAccount(_id);     
+            createJtable();
+        }
+        catch (Exception ex){
+            JOptionPane.showMessageDialog(null,"You didn't select an account to delete (Select a row)");
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        try{
+            int selectedRow = jTable1.getSelectedRow();
+            int selectedColumn = 0;
+            Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
+            String _id = _idObj.toString();
+            Main Main = new Main();
+            Main.findRegAccount(_id);
+            
+        }
+        catch (Exception ex){
+            JOptionPane.showMessageDialog(null,"You didn't select an account to delete (Select a row)");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     public void createJtable(){
         jTable1 = new javax.swing.JTable();
@@ -185,6 +215,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
             jButton3.setEnabled(false);
             jButton1.setEnabled(false);
             jButton2.setEnabled(false);
+            jButton4.setEnabled(false);
         }
     }
     
@@ -228,6 +259,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTable1;

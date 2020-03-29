@@ -69,9 +69,9 @@ public class Main {
         }
         
         public void deleteRegAccount(String _id){
-               MongoCollection<Document> collection = database.getCollection("test");
-               Document document = new Document("_id", new ObjectId (_id));
-               collection.deleteOne(document);
+            MongoCollection<Document> collection = database.getCollection("test");
+            Document document = new Document("_id", new ObjectId (_id));
+            collection.deleteOne(document);
         }
     
         public String[] getRegPasswords(){
@@ -86,6 +86,26 @@ public class Main {
                 passwordListIndex++;
             }
             return passwordList;
+        }
+        
+        public String[] findRegAccount(String _id){
+            String[] account = new String[4];
+            MongoCollection<Document> collection = database.getCollection("test");
+            for (Document cur : collection.find()) {
+                System.out.println("hi");
+                String ID = cur.getObjectId("_id").toString();
+                if (ID.equals(_id)){
+                    Object Usernameobj = cur.get("Username");
+                    Object Passwordobj = cur.get("Password");
+                    Object Websiteobj = cur.get("Website URL");
+                    Object Descriptionobj = cur.get("Description");
+                    account[0] = Usernameobj.toString();
+                    account[1] = Passwordobj.toString();
+                    account[2] = Websiteobj.toString();
+                    account[3] = Descriptionobj.toString();
+                }
+            }
+            return account;
         }
         
         public boolean checkRegPasswordCorrect(String passwordEnc){
