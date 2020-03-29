@@ -7,9 +7,9 @@ Valentino: GUI, Database communications/security and Project Structure
 
 Arvis: Hashing passwords
 
-Omid: Salting passwords
+Omid: AES
 
-Adnan: Encryption of regular passwords (AES)
+Adnan: Encryption of regular passwords RSA
 
 ## How to use:
 
