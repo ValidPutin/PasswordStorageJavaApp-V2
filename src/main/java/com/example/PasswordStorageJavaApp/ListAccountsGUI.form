@@ -123,7 +123,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="String accType= null;&#xa;if (&quot;Regular&quot;.equals(accType)) {&#xa;    jButton3.setEnabled(false);&#xa;    jButton1.setEnabled(false);&#xa;    jButton2.setEnabled(false);&#xa;}"/>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
   </SubComponents>

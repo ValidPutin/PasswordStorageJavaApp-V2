@@ -25,13 +25,10 @@ public class Main {
             boolean exists = false;
             try{
                 Document findAccount = collection.find().first();
-                System.out.println(findAccount.toJson());
+                findAccount.toJson();
                 exists = true;
             }
-            catch (Exception ex){
-                System.out.println("Master account does not exist!");
-                exists = false;
-            }
+            catch (Exception ex){}
             return exists;
         }
         
@@ -39,8 +36,6 @@ public class Main {
             boolean correct = false;
             if(BCrypt.checkpw(Password, hashedMasterPassword)) {
                 correct = true;
-                System.out.println("Password Match");
-                System.out.println("Salt: " + BCrypt.gensalt(10) + " Hash: " + hashedMasterPassword);
             }
             else{correct = false;}
             return correct;
@@ -77,7 +72,7 @@ public class Main {
                MongoCollection<Document> collection = database.getCollection("test");
                Document document = new Document("_id", new ObjectId (_id));
                collection.deleteOne(document);
-       }
+        }
     
         public String[] getRegPasswords(){
             MongoCollection<Document> collection = database.getCollection("test");
@@ -87,9 +82,20 @@ public class Main {
                 Object Passwordobj = cur.get("Password");
                 String encryptedPassword = Passwordobj.toString();
                 String decryptedPassword = encryptedPassword; //replace this with decryption function so array stores decrypted version
-                System.out.println(decryptedPassword);
                 passwordList[passwordListIndex] = decryptedPassword;
+                passwordListIndex++;
             }
             return passwordList;
+        }
+        
+        public boolean checkRegPasswordCorrect(String passwordEnc){
+            boolean correct = false;
+            String [] storedRegPasswords = getRegPasswords();
+            for (int i = 0; i <= storedRegPasswords.length-1;i++){
+                if (passwordEnc.equals(storedRegPasswords[i])){
+                    correct = true;
+                }
+            }
+            return correct;
         }
 }

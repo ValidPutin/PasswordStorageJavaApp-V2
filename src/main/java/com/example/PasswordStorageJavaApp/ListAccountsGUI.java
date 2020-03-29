@@ -28,6 +28,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     
     public ListAccountsGUI() {
         initComponents();
+        greyButtons();
     }
 
     @SuppressWarnings("unchecked")
@@ -76,12 +77,6 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         jLabel1.setText("Accounts View");
 
         jButton3.setText("Change Master Account Password");
-        String accType= null;
-        if ("Regular".equals(accType)) {
-            jButton3.setEnabled(false);
-            jButton1.setEnabled(false);
-            jButton2.setEnabled(false);
-        }
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -158,16 +153,10 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         
         int selectedRow = jTable1.getSelectedRow();
         int selectedColumn = 0;
-        
         Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
-        
         String _id = _idObj.toString();
-        
-        System.out.println(_id);
-        
         Main Main = new Main();
         Main.deleteRegAccount(_id);     
-        
         createJtable();
         
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -178,7 +167,6 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
         MongoCollection<Document> collection = database.getCollection("test");
         for (Document cur : collection.find()) {
-            System.out.println(cur.toJson());
             Object _id = cur.get("_id");
             Object Username = cur.get("Username");
             Object Password = cur.get("Password");
@@ -187,10 +175,17 @@ public class ListAccountsGUI extends javax.swing.JFrame {
             AccountModel.addRow(new Object[] {_id,Username,Password,WebsiteURL,Description});
         }
         jTable1.setModel(AccountModel);
-
-
-
         jScrollPane1.setViewportView(jTable1);
+    }
+    
+    public void greyButtons(){
+        UserLoginGUI UserLoginGUI = new UserLoginGUI();
+        String accType= UserLoginGUI.getAccountType();
+        if ("Regular".equals(accType)) {
+            jButton3.setEnabled(false);
+            jButton1.setEnabled(false);
+            jButton2.setEnabled(false);
+        }
     }
     
     /**
@@ -232,7 +227,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    public javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JTable jTable1;

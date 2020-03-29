@@ -69,8 +69,6 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
         jLabel5.setText("Add An Account");
 
-        jPasswordField1.setText("jPasswordField1");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(

@@ -5,7 +5,6 @@
  */
 package com.example.PasswordStorageJavaApp;
 
-import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -98,15 +97,15 @@ public class UserLoginGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public static String accType;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
         
         ListAccountsGUI acclistGUI = new ListAccountsGUI();
         Main Main = new Main();
-        String accountType = String.valueOf(AccountTypeComboBox.getSelectedItem());
+        setAccountType();
+        String accountType = getAccountType();
         String password = jPasswordField1.getText();
-        
+        boolean correct = false;
         
         if ("Master".equals(accountType)){
             if(Main.checkMasterAccountExists() == false){
@@ -115,35 +114,33 @@ public class UserLoginGUI extends javax.swing.JFrame {
                     Main.createMasterAccount(password);
                     JOptionPane.showMessageDialog(null, "Created Account");
                 }
-                else{
-                    JOptionPane.showMessageDialog(null, "OK!, exiting");
-                }
             }
             String storedhashMasterPassword = Main.getMasterPassword();
-            boolean correct = Main.checkPassCorrect(password,storedhashMasterPassword);
-            
-            if(correct){
-                JOptionPane.showMessageDialog(null, "Logged in!");
-                acclistGUI.main(new String[0]);
-                setVisible(false); //you can't see me!
-                dispose(); //Destroy the JFrame object
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Password entered was incorrect");
-            }
+            correct = Main.checkPassCorrect(password,storedhashMasterPassword);
         }
-        
         else if ("Regular".equals(accountType)){
             String passwordEnc = password + "encrypted";
-            String[] storedRegPasswords = Main.getRegPasswords();
-            for (int i = 0; i <= storedRegPasswords.length-1;i++){
-                if (passwordEnc.equals(storedRegPasswords[i])){
-                    JOptionPane.showMessageDialog(null, "Logged in!");
-                    acclistGUI.main(new String[0]);
-                }
-            }
+            correct = Main.checkRegPasswordCorrect(passwordEnc);
         } 
+        
+        if(correct){
+            JOptionPane.showMessageDialog(null, "Logged in!");
+            acclistGUI.main(new String[0]);
+            setVisible(false); //you can't see me!
+            dispose(); //Destroy the JFrame object
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Password entered was incorrect");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+    
+    public void setAccountType(){
+        this.accType = String.valueOf(AccountTypeComboBox.getSelectedItem());
+    }
+    
+    public String getAccountType(){
+        return this.accType;
+    }
     
     /**
      * @param args the command line arguments
