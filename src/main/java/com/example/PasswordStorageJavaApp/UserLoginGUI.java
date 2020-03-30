@@ -119,8 +119,8 @@ public class UserLoginGUI extends javax.swing.JFrame {
             correct = Main.checkPassCorrect(password,storedhashMasterPassword);
         }
         else if ("Regular".equals(accountType)){
-            String passwordEnc = password + "encrypted";
-            correct = Main.checkRegPasswordCorrect(passwordEnc);
+            
+            correct = Main.checkRegPasswordCorrect(password);
         } 
         
         if(correct){

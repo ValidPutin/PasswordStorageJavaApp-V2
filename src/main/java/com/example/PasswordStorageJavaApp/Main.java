@@ -3,6 +3,10 @@ package com.example.PasswordStorageJavaApp;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import java.security.GeneralSecurityException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Map;
 import org.bson.Document;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -62,11 +66,23 @@ public class Main {
         }
     
         public void addRegAccount(String Username, String Password, String WebsiteURL, String Description){
+            RSA RSA = new RSA();
             MongoCollection<Document> collection = database.getCollection("test");
-            String EncryptedPassword = Password + "encrypted"; //This is where you add the encryption mechanism, we store encrypted passwords
-            Document document = new Document("Username",Username).append("Password",EncryptedPassword).append("Website URL",WebsiteURL).append("Description",Description);        
-            collection.insertOne(document);
-        }
+            try{
+                Map<String, Object> keys = RSA.getRSAKeys();
+                PrivateKey privateKey = (PrivateKey) keys.get("private");
+                PublicKey publicKey = (PublicKey) keys.get("public");
+                String RSAPassword = RSA.encryptMessage(Password,privateKey);
+                
+                String pubkeystring = RSA.convertPublicKeyToString(publicKey);
+                
+                Document document = new Document("Username",Username).append("Password",RSAPassword).append("RSAPubKey",pubkeystring).append("Website URL",WebsiteURL).append("Description",Description);        
+                collection.insertOne(document);
+            }
+            catch(Exception EX){}
+
+            
+            }
         
         public void deleteRegAccount(String _id){
             MongoCollection<Document> collection = database.getCollection("test");
@@ -78,13 +94,20 @@ public class Main {
             MongoCollection<Document> collection = database.getCollection("test");
             int passwordListIndex = 0;
             String[] passwordList = new String[100];
-            for (Document cur : collection.find()) {
-                Object Passwordobj = cur.get("Password");
-                String encryptedPassword = Passwordobj.toString();
-                String decryptedPassword = encryptedPassword; //replace this with decryption function so array stores decrypted version
-                passwordList[passwordListIndex] = decryptedPassword;
-                passwordListIndex++;
+            try{
+                for (Document cur : collection.find()) {
+                    Object Passwordobj = cur.get("Password");
+                    Object RSAKeyobj = cur.get("RSAPubKey");
+                    String RSAPubKeyString = RSAKeyobj.toString();
+                    PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+                    String encryptedPassword = Passwordobj.toString();
+                    String decryptedRSA = RSA.decryptMessage(encryptedPassword, RSAPubKey);
+                    passwordList[passwordListIndex] = decryptedRSA;
+                    passwordListIndex++;
+                }
             }
+            catch (Exception ex){}
+            
             return passwordList;
         }
         
