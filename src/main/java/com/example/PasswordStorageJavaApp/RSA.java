@@ -37,10 +37,6 @@ public class RSA {
         String EncryptedText = encryptMessage(Credentials, privateKey);
         String DecryptedText = decryptMessage(EncryptedText, publicKey);
  
-        System.out.println("User Input --->:" + Credentials); //user will enter their password in this field
-        System.out.println("encrypted Data:" + EncryptedText); //The encryption algorithm will generate this text
-        System.out.println("decrypted Data:" + DecryptedText); //User will be given back original input
- 
     }
  
     // Obtain RSA keys for public and private key 
