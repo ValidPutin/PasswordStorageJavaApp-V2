@@ -6,6 +6,7 @@
 package com.example.PasswordStorageJavaApp;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import java.security.PublicKey;
@@ -24,7 +25,8 @@ public class ListAccountsGUI extends javax.swing.JFrame {
      * Creates new form ListAccountsGUI
      */
     
-    MongoClient mongoClient = new MongoClient( "34.89.31.98" );
+    MongoClientURI uri = new MongoClientURI("mongodb://Admin:mongopassword@34.89.31.98/?authSource=admin");
+    MongoClient mongoClient = new MongoClient(uri);
     MongoDatabase database = mongoClient.getDatabase("Accounts");
     
     public ListAccountsGUI() {
@@ -202,18 +204,27 @@ public class ListAccountsGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     public void createJtable(){
-        jTable1 = new javax.swing.JTable();
+        RSA RSA = new RSA();
         String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
         MongoCollection<Document> collection = database.getCollection("test");
-        for (Document cur : collection.find()) {
-            Object _id = cur.get("_id");
-            Object Username = cur.get("Username");
-            Object Password = cur.get("Password");
-            Object WebsiteURL = cur.get("Website URL");
-            Object Description = cur.get("Description");
-            AccountModel.addRow(new Object[] {_id,Username,Password,WebsiteURL,Description});
+        try{
+            for (Document cur : collection.find()) {
+                System.out.println(cur.toJson());
+                Object _id = cur.get("_id");
+                Object Username = cur.get("Username");
+                Object Passwordobj = cur.get("Password");
+                Object WebsiteURL = cur.get("Website URL");
+                Object Description = cur.get("Description");
+                Object RSAKeyobj = cur.get("RSAPubKey");
+                String RSAPubKeyString = RSAKeyobj.toString();
+                PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+                String encryptedPassword = Passwordobj.toString();
+                String decryptedRSA = RSA.decryptMessage(encryptedPassword, RSAPubKey);
+                AccountModel.addRow(new Object[] {_id,Username,decryptedRSA,WebsiteURL,Description});
+            }
         }
+        catch (Exception ex){}
         jTable1.setModel(AccountModel);
         jScrollPane1.setViewportView(jTable1);
     }

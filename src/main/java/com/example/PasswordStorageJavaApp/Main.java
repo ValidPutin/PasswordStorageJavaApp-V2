@@ -1,9 +1,9 @@
 package com.example.PasswordStorageJavaApp;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import java.security.GeneralSecurityException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Map;
@@ -14,8 +14,8 @@ import org.bson.types.ObjectId;
 
 @SpringBootApplication
 public class Main {
-
-        MongoClient mongoClient = new MongoClient( "34.89.31.98" );
+        MongoClientURI uri = new MongoClientURI("mongodb://Admin:mongopassword@34.89.31.98/?authSource=admin");
+        MongoClient mongoClient = new MongoClient(uri);
         MongoDatabase database = mongoClient.getDatabase("Accounts");
         MongoDatabase adminDatabase = mongoClient.getDatabase("admin");
                 
@@ -73,9 +73,7 @@ public class Main {
                 PrivateKey privateKey = (PrivateKey) keys.get("private");
                 PublicKey publicKey = (PublicKey) keys.get("public");
                 String RSAPassword = RSA.encryptMessage(Password,privateKey);
-                
                 String pubkeystring = RSA.convertPublicKeyToString(publicKey);
-                
                 Document document = new Document("Username",Username).append("Password",RSAPassword).append("RSAPubKey",pubkeystring).append("Website URL",WebsiteURL).append("Description",Description);        
                 collection.insertOne(document);
             }
