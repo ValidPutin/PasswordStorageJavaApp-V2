@@ -77,16 +77,16 @@ public class RSA {
     
  
     // Encrypt using RSA private key
-    public static String encryptMessage(String plainText, PrivateKey publicKey) throws Exception {
+    public static String encryptMessage(String plainText, PrivateKey privateKey) throws Exception {
         Cipher CI_EN = Cipher.getInstance("RSA");
-        CI_EN.init(Cipher.ENCRYPT_MODE, publicKey);
+        CI_EN.init(Cipher.ENCRYPT_MODE, privateKey);
         return Base64.getEncoder().encodeToString(CI_EN.doFinal(plainText.getBytes()));
     }
     
     // Decrypt the data by using the generated private key.
-    public static String decryptMessage(String encryptedText, PublicKey privateKey) throws Exception {
+    public static String decryptMessage(String encryptedText, PublicKey publicKey) throws Exception {
         Cipher CI_DE = Cipher.getInstance("RSA");
-        CI_DE.init(Cipher.DECRYPT_MODE, privateKey);
+        CI_DE.init(Cipher.DECRYPT_MODE, publicKey);
         return new String(CI_DE.doFinal(Base64.getDecoder().decode(encryptedText)));
     }
 }
