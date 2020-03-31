@@ -57,7 +57,7 @@ public class RSA {
         return Base64.getEncoder().encodeToString(CI_EN.doFinal(plainText.getBytes()));
     }
     
-    // Decrypt the data by using the generated private key.
+    // Decrypt the data by using the generated public key.
     public static String decryptMessage(String encryptedText, PublicKey publicKey) throws Exception {
         Cipher CI_DE = Cipher.getInstance("RSA");
         CI_DE.init(Cipher.DECRYPT_MODE, publicKey);
