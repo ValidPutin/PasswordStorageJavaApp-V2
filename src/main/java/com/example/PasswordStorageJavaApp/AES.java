@@ -6,8 +6,6 @@
 package com.example.PasswordStorageJavaApp;
 
 import java.security.Key;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.Cipher; //creating cipher txt
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Base64;
@@ -47,18 +45,4 @@ public class AES {
         Key key=new SecretKeySpec (keyValue, aes1); 
         return key;
     } 
- 
- 
-    public static void main(String args[]) {
-        try {
-            //AES class obj
-            AES aes=new AES("test1test1test12"); //key
-            String encdata=aes.encrypt("test2"); //data for encryption
-            System.out.println("encrypted data: "+encdata);
-            String decdata=aes.decrypt(encdata);
-            System.out.println("decrypted data: "+ decdata);
-        }catch (Exception ex){
-            Logger.getLogger(AES.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
 }
