@@ -49,6 +49,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         RSA RSA = new RSA();
+        AES aes=new AES("test1test1test12");
         String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
         MongoCollection<Document> collection = database.getCollection("test");
@@ -62,9 +63,15 @@ public class ListAccountsGUI extends javax.swing.JFrame {
                 Object Description = cur.get("Description");
                 Object RSAKeyobj = cur.get("RSAPubKey");
                 String RSAPubKeyString = RSAKeyobj.toString();
-                PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+
+                //Get AES encrypted password and decrypt it
                 String encryptedPassword = Passwordobj.toString();
-                String decryptedRSA = RSA.decryptMessage(encryptedPassword, RSAPubKey);
+                String RSAPassword = aes.decrypt(encryptedPassword);
+
+                //Decrypt the RSA encrypted password
+                PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+                String decryptedRSA = RSA.decryptMessage(RSAPassword, RSAPubKey);
+
                 AccountModel.addRow(new Object[] {_id,Username,decryptedRSA,WebsiteURL,Description});
             }
         }
@@ -205,6 +212,7 @@ public class ListAccountsGUI extends javax.swing.JFrame {
 
     public void createJtable(){
         RSA RSA = new RSA();
+        AES aes=new AES("test1test1test12");
         String[] Columns = new String[]{"id","Username","Password","Website URL","Description"};
         DefaultTableModel AccountModel = new DefaultTableModel(Columns,0);
         MongoCollection<Document> collection = database.getCollection("test");
@@ -218,9 +226,15 @@ public class ListAccountsGUI extends javax.swing.JFrame {
                 Object Description = cur.get("Description");
                 Object RSAKeyobj = cur.get("RSAPubKey");
                 String RSAPubKeyString = RSAKeyobj.toString();
-                PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+                
+                //Get AES encrypted password and decrypt it
                 String encryptedPassword = Passwordobj.toString();
-                String decryptedRSA = RSA.decryptMessage(encryptedPassword, RSAPubKey);
+                String RSAPassword = aes.decrypt(encryptedPassword);
+                
+                //Decrypt the RSA encrypted password
+                PublicKey RSAPubKey = RSA.loadPublicKey(RSAPubKeyString);
+                String decryptedRSA = RSA.decryptMessage(RSAPassword, RSAPubKey);
+        
                 AccountModel.addRow(new Object[] {_id,Username,decryptedRSA,WebsiteURL,Description});
             }
         }
