@@ -29,7 +29,7 @@ public class RSA {
         PublicKey PUBKEY = KP.getPublic();
  
         Map<String, Object> Genkeys = new HashMap<String,Object>();
-        Genkeys.put("private", PRIVKEY); //these are the generated keys one is for the public key (kept on client) other is kept on server the private key
+        Genkeys.put("private", PRIVKEY); //these are the generated keys for both private & public
         Genkeys.put("public", PUBKEY);
         return Genkeys;
     }
