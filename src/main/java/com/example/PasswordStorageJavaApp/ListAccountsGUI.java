@@ -10,6 +10,7 @@ import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import java.security.PublicKey;
+import java.util.Set;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
@@ -196,17 +197,24 @@ public class ListAccountsGUI extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
+        UserDetailsGUI UserDetailsGUI = new UserDetailsGUI();
         try{
             int selectedRow = jTable1.getSelectedRow();
             int selectedColumn = 0;
             Object _idObj = jTable1.getValueAt(selectedRow, selectedColumn);
             String _id = _idObj.toString();
             Main Main = new Main();
-            Main.findRegAccount(_id);
+            String[] editableAccount = Main.findRegAccount(_id);
+
+            UserDetailsGUI.setAccountToEdit(editableAccount);
+            Main.deleteRegAccount(_id);
+            UserDetailsGUI.main(new String [0]);
+            setVisible(false);
+            dispose();
             
         }
         catch (Exception ex){
-            JOptionPane.showMessageDialog(null,"You didn't select an account to delete (Select a row)");
+            JOptionPane.showMessageDialog(null,"You didn't select an account to edit (Select a row)");
         }
     }//GEN-LAST:event_jButton4ActionPerformed
 

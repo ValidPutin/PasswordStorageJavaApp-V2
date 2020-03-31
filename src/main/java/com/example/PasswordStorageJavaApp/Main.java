@@ -126,7 +126,6 @@ public class Main {
         String[] account = new String[4];
         MongoCollection<Document> collection = database.getCollection("test");
         for (Document cur : collection.find()) {
-            System.out.println("hi");
             String ID = cur.getObjectId("_id").toString();
             if (ID.equals(_id)){
                 Object Usernameobj = cur.get("Username");

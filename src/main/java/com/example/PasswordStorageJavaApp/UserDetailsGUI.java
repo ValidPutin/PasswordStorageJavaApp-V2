@@ -5,6 +5,9 @@
  */
 package com.example.PasswordStorageJavaApp;
 
+import java.security.PublicKey;
+import java.util.Arrays;
+
 /**
  *
  * @author techtino
@@ -18,6 +21,7 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         initComponents();
     }
 
+    static String[] editAccount;
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,6 +45,8 @@ public class UserDetailsGUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        setTextFields();
+
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
@@ -51,7 +57,7 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
 
-        jButton1.setText("Add");
+        jButton1.setText("Add/Edit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -67,7 +73,7 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         jLabel4.setText("Description");
 
         jLabel5.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
-        jLabel5.setText("Add An Account");
+        jLabel5.setText("Add/Edit Account");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -76,7 +82,10 @@ public class UserDetailsGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
+                        .addContainerGap()
+                        .addComponent(jLabel5))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2)
@@ -86,14 +95,11 @@ public class UserDetailsGUI extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jTextField1)
                             .addComponent(jTextField3)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                            .addComponent(jPasswordField1)))
+                            .addComponent(jScrollPane1)
+                            .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(168, 168, 168)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(179, 179, 179)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -145,6 +151,20 @@ public class UserDetailsGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    public void setAccountToEdit(String[] account){
+        this.editAccount = account;
+    }
+    
+    public void setTextFields(){
+        try{
+            jTextField1.setText(editAccount[0]);
+            jTextField3.setText(editAccount[2]);
+            jTextArea1.setText(editAccount[3]);
+            Arrays.fill(editAccount, null);
+        }
+        catch (Exception ex){}
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -171,7 +191,6 @@ public class UserDetailsGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(UserDetailsGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
